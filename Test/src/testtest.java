@@ -22,10 +22,16 @@ public class testtest {
 		clienThread.start();
 		clienThread.wait(10000);
 		*/
-		while(true) {
-		MessengerClient messengerClient = new MessengerClient();
-		messengerClient.test();
+		for(int i=0 ;i<20;i++){
+			try {
+				MessengerClient messengerClient = new MessengerClient();
+				messengerClient.test();
+				
+			}
+			catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				}
 		}
 	}
-
 }

@@ -36,9 +36,11 @@ public class TcpMessage {
 		chatnumber = Model.Endian.getBigEndian(receive, 16);
 		int melength = Model.Endian.getBigEndian(receive, 20);
 		if(melength >0) {
-			message = new String(receive,24,melength);
+			message = new String(receive, 24, melength,"UTF-8");
+			System.out.println(message);
 		}
-				
+			
+		
 	}
 	public byte[] tobytedata() {
 		ByteBuffer buffer = ByteBuffer.allocate(32000);
