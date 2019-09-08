@@ -1,3 +1,6 @@
+import Service.MessangerService;
+import ViewModel.LoginViewModel;
+import ViewModel.MainViewModel;
 
 public class testtest {
 
@@ -22,9 +25,12 @@ public class testtest {
 		clienThread.start();
 		clienThread.wait(10000);
 		*/
-		for(int i=0 ;i<20;i++){
+		MessangerService messangerService = new MessangerService();
+		LoginViewModel loginViewModel = new LoginViewModel(messangerService);
+		MainViewModel mainViewModel = new MainViewModel(messangerService);
+		for(int i=0 ;i<3;i++){
 			try {
-				MessengerClient messengerClient = new MessengerClient();
+				MessengerClient messengerClient = new MessengerClient(messangerService);
 				messengerClient.test();
 				
 			}

@@ -4,10 +4,12 @@ public class JsonHelper {
 	private JsonParser jsonParser;
 	public String logininfo(String id,String password) {
 		JSONObject jsonobject = new JSONObject();
-		HashMap<String,Object> hashMap = new HashMap<String, Object>();
-		hashMap.put("ID", id);
-		hashMap.put("Password",password);
-		jsonobject = new JSONObject(hashMap);
+		//HashMap<String,Object> hashMap = new HashMap<String, Object>();
+		//hashMap.put("ID", id);
+		//hashMap.put("Password",password);
+		//jsonobject = new JSONObject(hashMap);
+		jsonobject.put("ID",id);
+		jsonobject.put("Password",password);
 		return jsonobject.toString();
 	}
 	

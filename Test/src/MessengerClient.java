@@ -4,10 +4,13 @@ import com.sun.nio.sctp.SendFailedNotification;
 
 import Model.TcpMessage;
 import Model.TcpMessage.Command;
+import Service.MessangerService;
 
 public class MessengerClient extends TcpClient{
-	public MessengerClient() throws Exception {
+	private MessangerService messangerService;
+	public MessengerClient(MessangerService messangerService) throws Exception {
 		super();
+		this.messangerService = messangerService;
 		// TODO Auto-generated constructor stub
 	}
 	private JsonHelper jsonHelper = new JsonHelper();
@@ -27,6 +30,7 @@ public class MessengerClient extends TcpClient{
 		try {
 			HashMap<String,String> hashMap = jsonHelper.getlogininfo(message.message);
 			System.out.println(hashMap);
+			messangerService.Responsetomethod(message);
 		}
 		catch (Exception e) {
 			// TODO: handle exception

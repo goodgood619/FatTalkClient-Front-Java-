@@ -62,6 +62,7 @@ public abstract class TcpClient {
 					TcpMessage tcpMessage = new TcpMessage(receiveBuffer);
 					HashMap<String,String> hashMap = jsonHelper.getlogininfo(tcpMessage.message);
 					System.out.println((String)hashMap.get("NickName"));
+					Response(tcpMessage);
 					receiveBuffer.flip();
 					asynchronousSocketChannel.read(receiveBuffer, null, this);
 					}
