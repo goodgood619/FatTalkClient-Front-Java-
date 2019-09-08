@@ -1,6 +1,7 @@
 package ViewModel;
 
 import Model.TcpMessage;
+import Model.TcpMessage.Command;
 import Service.Imessanger;
 import Service.MessangerService;
 
@@ -13,7 +14,7 @@ public class LoginViewModel {
 			public void ResponseMessage(TcpMessage message) {
 				// TODO Auto-generated method stub
 				switch (message.command) {
-				case 1:
+				case login:
 					System.out.println("login view react ok");
 					break;
 

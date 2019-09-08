@@ -3,6 +3,7 @@ import java.util.*;
 
 import com.google.common.base.Utf8;
 
+
 import java.nio.ByteBuffer;
 import java.io.*;
 import java.nio.ByteOrder;
@@ -11,14 +12,15 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 public class TcpMessage {
-	public int command;
+	public Command command;
+	private int tempcommand;
 	public int check;
 	public String message;
 	public int usernumber;
 	public int friendcount;
 	public int chatnumber;
 	public TcpMessage() {
-		command = 0;
+		command = command.Null;
 		check = 0;
 		message = "";
 		usernumber = 0;
@@ -29,7 +31,8 @@ public class TcpMessage {
 	public TcpMessage(ByteBuffer buffer) throws Exception{
 		buffer.order(ByteOrder.BIG_ENDIAN);
 		byte[] receive = buffer.array();
-		command = Model.Endian.getBigEndian(receive,0);
+		tempcommand = Model.Endian.getBigEndian(receive,0);
+		command = Command.valueof(tempcommand);
 		check = Model.Endian.getBigEndian(receive,4);
 		usernumber = Model.Endian.getBigEndian(receive, 8);
 		friendcount = Model.Endian.getBigEndian(receive, 12);
@@ -42,29 +45,18 @@ public class TcpMessage {
 			
 		
 	}
-	public byte[] tobytedata() {
+	public byte[] tobytedata() throws Exception{
 		ByteBuffer buffer = ByteBuffer.allocate(32000);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
-		buffer.putInt(command);
+		int command1 = command.getValue();
+		buffer.putInt(command1);
 		buffer.putInt(check);
 		buffer.putInt(usernumber);
 		buffer.putInt(friendcount);
 		buffer.putInt(chatnumber);
 		buffer.putInt(Utf8.encodedLength(message));
-		try {
-			/*
-			StringBuilder sBuilder = new StringBuilder(message.length());
-			sBuilder.append(message);
-			byte[] utf8bytes = sBuilder.toString().getBytes("UTF-8");
-			*/
-			//buffer.put(message.getBytes(Charset.forName("UTF-8")));
+
 			buffer.put(message.getBytes("UTF-8"));
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		
 		return buffer.array();
 	}
 	public enum Command{
@@ -72,11 +64,20 @@ public class TcpMessage {
 		Removefriend(11),Sendchat(12),Nicknamecheck(13),ReceiveJoinchat(14),Blockfriend(15),NotBlockfriend(16),Refreshchatnickarray(17),
 		Changeroomname(18);
 		private final int value;
+		private static Map<Object, Object> map = new HashMap<>();
 		private Command(int value) {
 			this.value = value;
 		}
+		static {
+			for(Command command : Command.values()) {
+				map.put(command.value,command);
+			}
+		}
+		public static Command valueof(int value) {
+			return (Command)map.get(value);
+		}
 		public int getValue() {
-		return value;
+			return value;
 		}
 	}
 	

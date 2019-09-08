@@ -16,7 +16,7 @@ public class MessengerClient extends TcpClient{
 	private JsonHelper jsonHelper = new JsonHelper();
 	public Boolean test() {
 		TcpMessage message = new TcpMessage();
-		message.command = 1;
+		message.command = Command.login;
 		message.chatnumber = 1;
 		message.check = 2;
 		message.friendcount = 3;
